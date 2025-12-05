@@ -1,30 +1,47 @@
-import { Routes, Route, Link, NavLink } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Layout from "./Layout";
+
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Users from "./pages/Users";
 import UserDetail from "./pages/UserDetail";
+import Menu from "./pages/Menu";
+import MenuDetail from "./pages/MenuDetail";
+import Contact from "./pages/Contact";
 import Login from "./pages/Login";
-import { Navigate } from "react-router-dom";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
-    <div>
-      <nav style={{ marginBottom: 20 }}>
-        <Link to="/">ホーム</Link> |
-        <NavLink to="/about">このサイトについて</NavLink> |
-        <Link to="/users">ユーザー一覧</Link>
-      </nav>
+    <Routes>
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/users/:id" element={<UserDetail />} />
-<Route path="/login" element={<Login />} />
-<Route path="/top" element={<Navigate to="/" replace />} />
+      {/* 共通レイアウト */}
+      <Route path="/" element={<Layout />}>
 
-      </Routes>
-    </div>
+        <Route index element={<Home />} />
+        <Route path="about" element={<About />} />
+
+        {/* Users */}
+        <Route path="users" element={<Users />} />
+        <Route path="users/:id" element={<UserDetail />} />
+
+        {/* Menu */}
+        <Route path="menu" element={<Menu />} />
+        <Route path="menu/:id" element={<MenuDetail />} />
+
+        <Route path="contact" element={<Contact />} />
+
+        {/* 古いURLからのリダイレクト */}
+        <Route path="old-home" element={<Navigate to="/" replace />} />
+
+        {/* 404 */}
+        <Route path="*" element={<NotFound />} />
+      </Route>
+
+      {/* レイアウト外のページ */}
+      <Route path="/login" element={<Login />} />
+
+    </Routes>
   );
 }
 
